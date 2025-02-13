@@ -1101,6 +1101,7 @@ void keypadEvent(KeypadEvent key) {
     debug_print("Button "); debug_print(String(key - '0')); debug_println(" released.");
     break;
   case HOLD:
+    doKeyHold(key);
     debug_print("Button "); debug_print(String(key - '0')); debug_println(" hold.");
     break;
   case IDLE:
@@ -1591,6 +1592,25 @@ void doKeyPress(char key, bool pressed) {
   }
 
   // debug_println("doKeyPress(): end"); 
+}
+
+void doKeyHold(char key) {
+  debug_print("doKeyHold(): ");
+  debug_println(key);
+  switch (key){
+    case '0':
+      doDirectAction(E_STOP);
+      doDirectAction(E_STOP_CURRENT_LOCO);
+      break;
+    case '#':
+      doDirectAction(POWER_TOGGLE); // or use POWER_OFF
+      break;
+    case '*':
+      esp_restart();
+      break;
+    default:  // do nothing
+      break;
+  }
 }
 
 void doDirectCommand (char key, bool pressed) {
